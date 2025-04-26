@@ -13,12 +13,37 @@ import numpy as np
 
 #computes pressure from density via Vinet. Used for checking density guesses
 def vinet(rho, rho_0, B_0, B_01):
+    """Calculate pressure using the Vinet equation of state.
+    
+    Parameters:
+    rho (float): Density at pressure P (kg/m^3).
+    rho_0 (float): Initial (zero-pressure) density (kg/m^3).
+    B_0 (float): Bulk modulus at zero pressure (Pa).
+    B_01 (float): Pressure derivative of the bulk modulus.
+
+    Returns:
+    float: Pressure corresponding to the given density (Pa).
+    """
     eta = (rho_0 / rho) ** (1/3)
     pressure = 3 * B_0 * ((1 - eta) / (eta ** 2)) * np.exp((3/2) * (B_01 - 1) * (1 - eta))
     return(pressure)
 
 #takes a target pressure and returns the density associated with it via Vinet
 def invert_vinet(P_target, rho_0, rho_min, rho_max, B_0, B_01, allowed_discrepancy = (0.05 * (10 ** 9))):
+    """Iteratively calculates density corresponding to a target pressure using the Vinet equation.
+    
+    Parameters:
+    P_target (float): The target pressure (Pa).
+    rho_0 (float): Initial (zero-pressure) density (kg/m^3).
+    rho_min (float): Minimum density guess (kg/m^3).
+    rho_max (float): Maximum density guess (kg/m^3).
+    B_0 (float): Bulk modulus at zero pressure (Pa).
+    B_01 (float): Pressure derivative of the bulk modulus.
+    allowed_discrepancy (float): Maximum allowed difference between the calculated and target pressure (Pa).
+    
+    Returns:
+    float: The calculated density corresponding to the target pressure.
+    """
     rho_guess = (rho_min + rho_max) / 2
     P_guess = vinet(rho_guess, rho_0, B_0, B_01)
 
@@ -50,6 +75,12 @@ def make_input(target_pressures, parameters):
 
 #list parameters in order of: rho_0, rho_min, rho_max, B_0, B_01
 def display_invert_vinet(target_pressures, parameters):
+    """Display the density corresponding to each target pressure using the Vinet equation.
+    
+    Parameters:
+    target_pressures (list): A list of target pressures (Pa).
+    parameters (list): A list of parameters to be passed to invert_vinet.
+    """
     for key, value in make_input(target_pressures, parameters).items():
         print(invert_vinet(*value))
 
