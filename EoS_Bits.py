@@ -12,21 +12,61 @@ from matplotlib import pyplot as plt
 
 
 def BM3(rho, rho0, B0, B1):
-    """Gives 3rd order Birch-Murnaghan pressure based on parameters provided"""
+    """Calculate pressure using the 3rd-order Birch-Murnaghan equation of state.
+    
+    Parameters:
+    rho (float): Density at pressure P (kg/m^3).
+    rho0 (float): Initial (zero-pressure) density (kg/m^3).
+    B0 (float): Bulk modulus at zero pressure (Pa).
+    B1 (float): Pressure derivative of the bulk modulus.
+
+    Returns:
+    Pressure (float) corresponding to the given density (Pa)."""
+    
     foo = rho/rho0
     return 1.5*B0*(foo**(7/3)-foo**(5/3))*(1+0.75*(B1-4)*(foo**(2/3)-1))
 
 def Vinet(rho, rho0, B0, B1):
-    """Gives Vinet pressure based on provided parameters"""
+    """Calculate pressure using the Vinet equation of state.
+    
+    Parameters:
+    rho (float): Density at pressure P (kg/m^3).
+    rho0 (float): Initial (zero-pressure) density (kg/m^3).
+    B0 (float): Bulk modulus at zero pressure (Pa).
+    B1 (float): Pressure derivative of the bulk modulus.
+
+    Returns:
+    Pressure (float) corresponding to the given density (Pa)."""
+    
     eta = (rho0/rho)**(1/3)
     return 3*B0*((1-eta)/eta**2)*np.exp(1.5*(B1-1)*(1-eta))
 
 def Murnaghan(rho, rho0, B0, B1):
-    """Gives Murnaghan pressure based on provided parameters"""
+    """Calculate pressure using the Murnaghan equation of state.
+    
+    Parameters:
+    rho (float): Density at pressure P (kg/m^3).
+    rho0 (float): Initial (zero-pressure) density (kg/m^3).
+    B0 (float): Bulk modulus at zero pressure (Pa).
+    B1 (float): Pressure derivative of the bulk modulus.
+
+    Returns:
+    Pressure (float) corresponding to the given density (Pa)."""
     return (B0/B1)*((rho0/rho)**(-1*B1)-1)
 
 def DensityFromP(P, rho0, B0, B1, form, thresh=0.01):
-    """Gets density from pressure, EoS params given EoS form, thresh in P units"""
+    """Calculate density from pressure using a specified equation of state.
+
+    Parameters:
+    P (float): Pressure (Pa).
+    rho0 (float): Initial (zero-pressure) density (kg/m^3).
+    B0 (float): Zero pressure bulk modulus (Pa).
+    B1 (float): Pressure derivative of the bulk modulus.
+    form (str): Name of the equation of state ('bm3', 'vinet', or 'murnaghan').
+    thresh (float, optional): Convergence threshold for pressure (Pa). Default is 0.01 Pa.
+
+    Returns:
+    Estimated density (float) at pressure P (kg/m^3)."""
     # check form is supported and assign EoS variable to call that function
     supported_EoSs = {'bm3':BM3, 'vinet':Vinet, 'murnaghan':Murnaghan}
     assert form.lower() in supported_EoSs.keys()
@@ -69,7 +109,7 @@ def DensityFromP(P, rho0, B0, B1, form, thresh=0.01):
 
 # EoS for individual compoonents
 def IceDensity(P):
-    """Returns the density of ice at pressure P"""
+    """Returns the density of ice at a given pressure via corresponding EoS based on phase."""
     
     ice_params = {
         'Ih':{'rho0':930, 'B0':9.85 * (10 ** 9), 'B1':6.6, 'form':'Murnaghan'},
@@ -87,8 +127,14 @@ def IceDensity(P):
         
 
 def RockDensity(P):
-    """Reutrns density of MgSiO3 at pressure P.
-    This is a bit cursed as it starts off with a mix of Mg2SiO4 and SiO2 phases"""
+    """Return the density of rock (MgSiO3) at a given pressure.
+    Considers phase transitions accounting for a mixture of Mg2SiO4 and SiO2.
+
+    Parameters:
+    P (float): Pressure (Pa).
+
+    Returns:
+    Density (float) of the rock at the given pressure (kg/m^3)."""
     
     ##############
     # NOTES:
@@ -144,7 +190,14 @@ def RockDensity(P):
     
 
 def CoreDensity(P):
-    """Returns density of Fe93Si7 core after Wicks 2018"""
+    """Return the density of Fe93Si7 core alloy at a given pressure using the Vinet EoS (based on Wicks 2018)
+    
+    Parameters:
+    P (float): Pressure (Pa).
+
+    Returns:
+    Density (float) of the core alloy at the given pressure (kg/m^3)
+    """
     
     core_params = {
         'Fe93Si7':{'rho0':7678, 'B0':136.2 * (10 ** 9), 'B1':5.97, 'form':'vinet'}
