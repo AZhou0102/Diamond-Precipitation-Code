@@ -10,14 +10,32 @@ r_earth = 6.371 * (10 ** 6)
 G = 6.6743015 / (10 ** 11)
 
 def make_density_function(rad, local_densities):
-    '''Turns a list of radii and densities into a dictionary mapping each radius to a density.'''
+    """
+    Turns a list of radii and densities into a dictionary mapping each radius to a density.
+
+    Parameters:
+    rad (list): List of radii at which densities are defined.
+    local_densities (list): List of densities corresponding to each radius in rad.
+
+    Returns:
+    dict: A dictionary mapping each radius to its corresponding density.
+    """
     #local_densities should be a list of densities, each corresponding to a single radius.
     density_function = {rad[i]: local_densities[i] for i in range(len(rad))}
     return(density_function)
 
 
 def find_mass_inside(density_function, current_radius):
-    '''Calculates the mass inside a ball of current_radius given a density_function dictionary as defined above.'''
+    """
+    Calculates the mass inside a ball of given radius using a density function.
+
+    Parameters:
+    density_function (dict): A dictionary mapping radii to densities.
+    current_radius (float): The radius at which to calculate the enclosed mass.
+
+    Returns:
+    float: The mass inside the ball of radius current_radius.
+    """
     step_size = list(density_function.keys())[1] - list(density_function.keys())[0]
     #Computes the difference between each radius in the radii list.
     mass_inside = 0
@@ -33,7 +51,17 @@ def find_mass_inside(density_function, current_radius):
 
 
 def adams_williamson(rad, local_densities):
-    '''Returns a list of gravities and a list of pressures corresponding to each radius within a planet given a list of radii and densities at each radius.'''
+    """
+    Returns a list of gravities and a list of pressures corresponding to each radius within a planet 
+    given a list of radii and densities at each radius.
+
+    Parameters:
+    rad (list): A list of radii at which to calculate gravity and pressure.
+    local_densities (list): A list of densities corresponding to each radius in rad.
+
+    Returns:
+    dict: A dictionary mapping each radius to a list of [gravity, pressure].
+    """
     density_function = make_density_function(rad, local_densities)
     step_size = list(density_function.keys())[1] - list(density_function.keys())[0]
     gravities_and_pressures = {}
