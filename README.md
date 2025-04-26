@@ -4,7 +4,7 @@ This repository contains Python code to model the structure and properties of pl
 
 ## Key Components
 
-**`looped_solver.ipynb`**: This module iteratively calculates density and pressure profiles inside a planet given a list of radii and a dictionary describing its layered composition.
+**`looped_solver.ipynb`**/**`looped_solver.py`**: This module iteratively calculates density and pressure profiles inside a planet given a list of radii and a dictionary describing its layered composition. See the linked notebook below for a walkthrough of the code and its usage.
 - https://github.com/AZhou0102/Diamond-Precipitation-Code/blob/main/looped_solver.ipynb
 
 **`solve_adams_williamson.py`**: Returns a list of gravities and a list of pressures corresponding to each radius within a planet given a list of radii and densities at each radius.
