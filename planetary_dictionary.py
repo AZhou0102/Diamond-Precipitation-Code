@@ -7,7 +7,21 @@
 r_earth = 6370 * (10 ** 3)
 
 def planetary_dictionary(earth_rads, iron_part, sio2_part):
-    """Returns a dictionary reflecting planetary composition. The keys represent the bounds at which materials transition. The values represent the initial density guess at each shell."""
+    """
+    Generates a dictionary representing a planet's composition with three layers: core, mantle, and ice.
+
+    Parameters:
+    earth_rads (float): Planet radius in Earth radii.
+    iron_part (float): Fraction of the planet's radius made up of the iron core.
+    sio2_part (float): Fraction of the planet's radius made up of the mantle.
+
+    Returns:
+    dict
+        Dictionary with transition radii as keys and initial density guesses as values:
+        - Key1: Iron core, density ~7678 kg/m^3.
+        - Key2: Silicate mantle, density ~3000 kg/m^3.
+        - Key3: Ice layer, density ~930 kg/m^3.
+    """
     
     ice_part = 1 - iron_part - sio2_part
 
