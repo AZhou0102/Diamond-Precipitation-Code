@@ -24,7 +24,7 @@ This repository contains Python code to model the structure and properties of pl
 
 ## Installation
 
-This project requires the following Python packages (in addition to the custom modules available in this repository):
+This project requires the following Python packages, in addition to the custom modules available in this repository. Note that other modules may be needed for some of the plotting notebooks and scripts that aren't listed above in the "Key Components" section:
 - `numpy`
 - `matplotlib`
 - `math`
