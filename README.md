@@ -31,3 +31,4 @@ This project requires the following Python packages, in addition to the custom m
 - `random (part of Python's standard library)`
 - `csv (part of Python's standard library)`
 - `os (part of Python's standard library)`
+- `jupyter (optional but recommended)`
