@@ -27,7 +27,7 @@ This repository contains Python code to model the structure and properties of pl
 This project requires the following Python packages, in addition to the custom modules available in this repository. Note that other modules may be needed for some of the plotting notebooks and scripts that aren't listed above in the "Key Components" section:
 - `numpy`
 - `matplotlib`
-- `math`
-- `random`
-- `csv`
-- `os`
+- `math (part of Python's standard library)`
+- `random (part of Python's standard library)`
+- `csv (part of Python's standard library)`
+- `os (part of Python's standard library)`
